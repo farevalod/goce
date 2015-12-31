@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_id: 
+  group_id: 
+  weight: 1
+
+two:
+  patient_id: 
+  group_id: 
+  weight: 1
