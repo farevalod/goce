@@ -46,10 +46,14 @@ end
       row "Fecha de incorporacion" do
 	    patient.created_at
 	  end
-	  if patient.owed > 0
+	  if patient.balance < 0
 		row "Total Deuda" do
-		  number_to_currency patient.owed, separator: ",", delimiter: ".", precision: 0
+		  number_to_currency patient.balance.abs, separator: ",", delimiter: ".", precision: 0
 		end
+	  else
+		  row "Saldo a favor" do
+			number_to_currency patient.balance.abs, separator: ",", delimiter: ".", precision: 0
+		  end
 	  end
     end
 		panel "Evolucion de peso" do

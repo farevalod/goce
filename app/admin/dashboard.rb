@@ -23,14 +23,10 @@ ActiveAdmin.register_page "Dashboard" do
          panel "Usuarios con deuda" do
 		   table do
 			 Patient.all.each do |patient|
-				 total = 0
-				 patient.payments.each do |p|
-					 total += p.amount
-				 end
-				 if patient.owed - total > 0
+				 if patient.balance < 0
 					 tr do
 						 td link_to patient.name, admin_patient_path(patient)
-						 td number_to_currency (patient.owed-total), separator: ",", delimiter: ".", precision: 0
+						 td number_to_currency (patient.balance.abs), separator: ",", delimiter: ".", precision: 0
 					 end
 				 end
 			 end
