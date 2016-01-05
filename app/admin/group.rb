@@ -1,11 +1,11 @@
-ActiveAdmin.register Attendance do
-  menu label: "Asistencia"
-  index title: "Asistencia"
+ActiveAdmin.register Group do
+  menu label: "Grupos"
+  index title: "Grupos"
 
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :patient_id, :group_id, :weight
+permit_params :name, :address, :day, :time
 #
 # or
 #

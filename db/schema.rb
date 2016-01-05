@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105010508) do
+ActiveRecord::Schema.define(version: 20160105012224) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -57,6 +57,17 @@ ActiveRecord::Schema.define(version: 20160105010508) do
   add_index "attendaces", ["group_id"], name: "index_attendaces_on_group_id"
   add_index "attendaces", ["patient_id"], name: "index_attendaces_on_patient_id"
 
+  create_table "attendances", force: true do |t|
+    t.integer  "patient_id"
+    t.integer  "group_id"
+    t.integer  "weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "attendances", ["group_id"], name: "index_attendances_on_group_id"
+  add_index "attendances", ["patient_id"], name: "index_attendances_on_patient_id"
+
   create_table "groups", force: true do |t|
     t.string   "name"
     t.string   "address"
@@ -72,7 +83,10 @@ ActiveRecord::Schema.define(version: 20160105010508) do
     t.date     "dob"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
+
+  add_index "patients", ["group_id"], name: "index_patients_on_group_id"
 
   create_table "payments", force: true do |t|
     t.integer  "patient_id"
