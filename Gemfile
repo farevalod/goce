@@ -28,6 +28,8 @@ gem 'activeadmin', github: 'activeadmin'
 
 gem 'devise'
 
+gem 'faker'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
