@@ -1,4 +1,4 @@
-class Attendace < ActiveRecord::Base
+class Attendance < ActiveRecord::Base
   belongs_to :patient
   belongs_to :group
 end
