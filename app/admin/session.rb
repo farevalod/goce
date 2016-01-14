@@ -12,6 +12,40 @@ permit_params :group_id, :doctor_id, :date, :attendance
 #   permitted << :other if resource.something?
 #   permitted
 # end
+show do
+    attributes_table do
+      row "Fecha" do
+		  session.date
+	  end
+      row "Grupo" do
+		  session.group
+	  end
+      row :doctor
+      row "Fecha de creacion" do
+	    session.created_at
+	  end
+  	  row "Total Asistencias" do
+	    session.attendances.count.to_s+"/"+session.group.patients.count.to_s+" ("+(session.attendances.count*100/session.group.patients.count).to_s+"%)"
+	  end
+    end
+		panel "Asistencias" do
+			table do
+				session.attendances.each do |attendance|
+					tr do
+					 td link_to(attendance.patient.name, admin_attendance_path(attendance))
+					 td do 
+						b attendance.weight
+					 end
+					 td do 
+						attendance.created_at.to_date
+					 end
+					end
+				end
+			end
+		  end
+    active_admin_comments
+  end
+
 	form :title => "Nueva Sesion" do |f|
 		columns do
 			column do
