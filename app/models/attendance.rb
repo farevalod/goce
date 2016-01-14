@@ -1,4 +1,4 @@
 class Attendance < ActiveRecord::Base
   belongs_to :patient
-  belongs_to :group
+  belongs_to :session
 end

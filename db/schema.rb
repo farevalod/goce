@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105025735) do
+ActiveRecord::Schema.define(version: 20160114031848) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -59,14 +59,20 @@ ActiveRecord::Schema.define(version: 20160105025735) do
 
   create_table "attendances", force: true do |t|
     t.integer  "patient_id"
-    t.integer  "group_id"
+    t.integer  "session_id"
     t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "attendances", ["group_id"], name: "index_attendances_on_group_id"
   add_index "attendances", ["patient_id"], name: "index_attendances_on_patient_id"
+  add_index "attendances", ["session_id"], name: "index_attendances_on_session_id"
+
+  create_table "doctors", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "groups", force: true do |t|
     t.string   "name"
@@ -98,5 +104,16 @@ ActiveRecord::Schema.define(version: 20160105025735) do
   end
 
   add_index "payments", ["patient_id"], name: "index_payments_on_patient_id"
+
+  create_table "sessions", force: true do |t|
+    t.date     "date"
+    t.integer  "group_id"
+    t.integer  "doctor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["doctor_id"], name: "index_sessions_on_doctor_id"
+  add_index "sessions", ["group_id"], name: "index_sessions_on_group_id"
 
 end
