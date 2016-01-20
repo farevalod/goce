@@ -1,7 +1,29 @@
 ActiveAdmin.register Patient do
 
 menu label: "Paciente"
-index title: "Paciente"
+index title: "Paciente" do
+	id_column
+	column :name
+	column :email
+	column :rut
+	column "Altura" do |a|
+		a.height
+	end
+	column "Peso Inicial" do |a|
+		a.initial_weight
+	end
+	column "Estado" do |a|
+		a.status_s
+	end
+	column "Fecha de Nacimiento" do |a|
+		a.dob
+	end
+	column "Fecha de Incorporacion" do |a|
+		a.created_at.to_date
+	end
+	actions
+end
+
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
@@ -41,7 +63,7 @@ end
 		  patient.dob
 	  end
       row "Altura" do
-		  patient.height
+		  patient.height.to_s+" cm"
 	  end
       row :rut
 	  row "Grupo" do
@@ -51,7 +73,12 @@ end
 		  patient.status_s
 	  end
       row "Peso Inicial" do
-	    patient.initial_weight.to_s+" Kg"
+	    patient.initial_weight.to_s+" Kg (IMC: "+(patient.initial_weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+	  end
+	  if !patient.attendances.empty?
+		  row "Peso Actual" do
+			patient.attendances.last.weight.to_s+" Kg (IMC: "+(patient.attendances.last.weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+		  end
 	  end
       row "Fecha de incorporacion" do
 	    patient.created_at
@@ -70,18 +97,30 @@ end
 			table do
 				patient.attendances.each do |attendance|
 					tr do
-					 td link_to(attendance.created_at, admin_attendance_path(attendance))
+					 td link_to(attendance.created_at.to_date, admin_attendance_path(attendance))
 					 td do 
 						b attendance.weight
 					 end
 					 td do
-						if attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight > 0
-							span style: "color:#3a3" do
-								"+"+(attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight).to_s
+						if attendance.patient.attendances.find_index(attendance) == 0
+							if attendance.weight - attendance.patient.initial_weight > 0
+								span style: "color:#3a3" do
+									"+"+(attendance.weight - attendance.patient.initial_weight).to_s
+								end
+							else
+								span style: "color:#a33" do
+									(attendance.weight - attendance.patient.initial_weight).to_s
+								end
 							end
 						else
-							span style: "color:#a33" do
-							    (attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight).to_s
+							if attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight > 0
+								span style: "color:#3a3" do
+									"+"+(attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight).to_s
+								end
+							else
+								span style: "color:#a33" do
+									(attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight).to_s
+								end
 							end
 						end
 					 end

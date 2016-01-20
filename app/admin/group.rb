@@ -29,7 +29,7 @@ permit_params :name, :address, :day, :time, :doctor_id
 		  group.time
 	  end
 	  row "Terapeuta" do
-		  group.doctor.name
+		  link_to group.doctor.name, admin_doctor_path(group.doctor)
 	  end
 	end
 	panel "Sesiones" do

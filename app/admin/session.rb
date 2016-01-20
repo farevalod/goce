@@ -21,7 +21,7 @@ show do
 		  session.group
 	  end
       row :doctor do
-		  session.doctors.map{|d| d.name}.join(", ")
+		  session.doctors.map{|d| link_to(d.name, admin_doctor_path(d))}.join(", ").html_safe
 	  end
       row "Fecha de creacion" do
 	    session.created_at
