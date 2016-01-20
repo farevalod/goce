@@ -5,7 +5,7 @@ index title: "Paciente"
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status
+permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :height
 #
 # or
 #
@@ -22,8 +22,10 @@ form do |f|
 	f.input :email
 	f.input :status, label: "Estado", :as => :select, :collection => [["Lista de espera",0], ["Paciente",1], ["Retirado",2], ["Graduado",3], ["Monitor",4]]
 	f.input :initial_weight
-	f.input :dob, as: :datepicker
-	f.input :created_at, as: :datepicker
+	f.input :dob, as: :datepicker, label: "Fecha de nacimiento"
+	f.input :height, label: "Altura (en cm)"
+	f.input :rut
+	f.input :created_at, as: :datepicker, label: "Fecha de incorporacion"
   end
   f.actions         # adds the 'Submit' and 'Cancel' buttons
 end
@@ -38,7 +40,11 @@ end
       row "Fecha de nacimiento" do
 		  patient.dob
 	  end
-      row "Grupo" do
+      row "Altura" do
+		  patient.height
+	  end
+      row :rut
+	  row "Grupo" do
 		  patient.group
 	  end
       row "Estado" do

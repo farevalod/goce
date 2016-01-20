@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120134618) do
+ActiveRecord::Schema.define(version: 20160120152253) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20160120134618) do
     t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "justificacion"
   end
 
   add_index "attendances", ["patient_id"], name: "index_attendances_on_patient_id"
@@ -72,7 +73,17 @@ ActiveRecord::Schema.define(version: 20160120134618) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "email"
+    t.string   "profession"
   end
+
+  create_table "doctors_sessions", force: true do |t|
+    t.integer "doctor_id"
+    t.integer "session_id"
+  end
+
+  add_index "doctors_sessions", ["doctor_id"], name: "index_doctors_sessions_on_doctor_id"
+  add_index "doctors_sessions", ["session_id"], name: "index_doctors_sessions_on_session_id"
 
   create_table "groups", force: true do |t|
     t.string   "name"
@@ -81,7 +92,10 @@ ActiveRecord::Schema.define(version: 20160120134618) do
     t.time     "time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "doctor_id"
   end
+
+  add_index "groups", ["doctor_id"], name: "index_groups_on_doctor_id"
 
   create_table "patients", force: true do |t|
     t.string   "name"
@@ -92,6 +106,8 @@ ActiveRecord::Schema.define(version: 20160120134618) do
     t.integer  "group_id"
     t.integer  "initial_weight"
     t.integer  "status"
+    t.string   "rut"
+    t.integer  "height"
   end
 
   add_index "patients", ["group_id"], name: "index_patients_on_group_id"
@@ -102,6 +118,7 @@ ActiveRecord::Schema.define(version: 20160120134618) do
     t.string   "details"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "adjustment"
   end
 
   add_index "payments", ["patient_id"], name: "index_payments_on_patient_id"

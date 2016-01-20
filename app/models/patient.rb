@@ -14,6 +14,10 @@ class Patient < ActiveRecord::Base
 	end
 	def status_s
 		stats = ["Lista de espera", "Paciente", "Retirado", "Graduado", "Monitor"]
-		return stats[status]
+		if status
+			return stats[status]
+		else
+			return nil
+		end
 	end
 end

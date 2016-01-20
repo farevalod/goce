@@ -1,6 +1,8 @@
 ActiveAdmin.register Doctor do
 
-permit_params :name
+menu label: "Terapeuta"
+index title: "Terapeutas"
+permit_params :name, :email, :profession
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
@@ -17,6 +19,13 @@ permit_params :name
     attributes_table do
       row "Nombre" do
 		  doctor.name
+	  end
+	  row :email
+	  row "Profesion" do
+		  doctor.profession
+	  end
+	  row :grupos do
+		  doctor.groups.map{|g| g.name}.join(", ")
 	  end
 	end
 	panel "Sesiones" do

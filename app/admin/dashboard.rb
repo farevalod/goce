@@ -29,7 +29,7 @@ ActiveAdmin.register_page "Dashboard" do
 		   end
 		     tr do
 				td "Numero de pacientes pagadores este mes"
-				td Patient.where("created_at > ?",Date.today.at_beginning_of_month).select{|p| p.payments}.count
+				td Patient.where("created_at > ?",Date.today.at_beginning_of_month).select{|p| !p.payments.empty?}.count
 		 end
 		     tr do
 				td "Numero de pacientes deuda este mes"
@@ -37,7 +37,7 @@ ActiveAdmin.register_page "Dashboard" do
 		 end
 		     tr do
 				td "Numero de pacientes asistentes este mes"
-				td Patient.where("created_at > ?",Date.today.at_beginning_of_month).select{|p| p.attendances}.count
+				td Patient.where("created_at > ?",Date.today.at_beginning_of_month).select{|p| !p.attendances.empty?}.count
 		 end
 			end
 		 end
