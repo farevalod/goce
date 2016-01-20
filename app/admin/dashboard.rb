@@ -17,6 +17,31 @@ ActiveAdmin.register_page "Dashboard" do
              end
            end
          end
+         panel "Estadisticas de  Pacientes" do
+		   table do
+		     tr do
+				td "Numero de pacientes registrados 2016"
+				td Patient.where("created_at > ?",Date.today.at_beginning_of_year).all.count
+		   end
+		     tr do
+				td "Numero de pacientes registrados este mes"
+				td Patient.where("created_at > ?",Date.today.at_beginning_of_month).all.count
+		   end
+		     tr do
+				td "Numero de pacientes pagadores este mes"
+				td Patient.where("created_at > ?",Date.today.at_beginning_of_month).select{|p| p.payments}.count
+		 end
+		     tr do
+				td "Numero de pacientes deuda este mes"
+				td Patient.where("created_at > ?",Date.today.at_beginning_of_month).select{|p| p.balance < 0}.count
+		 end
+		     tr do
+				td "Numero de pacientes asistentes este mes"
+				td Patient.where("created_at > ?",Date.today.at_beginning_of_month).select{|p| p.attendances}.count
+		 end
+			end
+		 end
+
        end
 
        column do

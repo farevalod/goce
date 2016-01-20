@@ -53,14 +53,20 @@ show do
 					f.input :group
 					f.input :doctor
 					f.input :date, as: :datepicker,      :input_html => { :style => "width:80px" }
+					f.has_many :attendances do |a|
+						a.input :patient
+						a.input :weight
+					end
 				end
 			end
 			column do
 				Patient.all.each do |p|
 					f.semantic_fields_for "attendance[#{p.id}]",  Attendance.new do |ff|
 						ff.inputs do 
-							ff.input :patient, selected: p.id
-							ff.input :weight,      :input_html => { :style => "width:80px" }
+							ff.input :weight,      :label => link_to(p.name, admin_patient_path(p)), :input_html => { :style => "width:80px" }
+							span "Peso inicial: "+p.initial_weight.to_s
+							span "Peso anterior: "+p.attendances.last.weight.to_s
+							span "Diferencia de Pesos: "+(p.initial_weight-p.attendances.last.weight).to_s
 						end
 					end
 				end

@@ -12,4 +12,8 @@ class Patient < ActiveRecord::Base
 		end
 		total - owed
 	end
+	def status_s
+		stats = ["Lista de espera", "Paciente", "Retirado", "Graduado", "Monitor"]
+		return stats[status]
+	end
 end
