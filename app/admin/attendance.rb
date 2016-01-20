@@ -3,7 +3,10 @@ ActiveAdmin.register Attendance do
 	  index title: "Asistencia" do
 	  id_column
 	  column :patient
-	  column :group
+	  column :session
+	  column :session do |a|
+		  link_to a.session.group.name, admin_group_path(a.session.group)
+	  end
 	  column :weight
 	  actions
   end

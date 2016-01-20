@@ -14,6 +14,35 @@ permit_params :name, :address, :day, :time, :doctor_id
 #   permitted << :other if resource.something?
 #   permitted
 # end
+  show do
+    attributes_table do
+      row "Nombre" do
+		  group.name
+	  end
+	  row "Direccion" do
+		  group.address
+	  end
+	  row "Dia" do
+		  group.day
+	  end
+	  row "Hora" do
+		  group.time
+	  end
+	  row "Terapeuta" do
+		  group.doctor.name
+	  end
+	end
+	panel "Sesiones" do
+		table do
+			group.sessions.each do |session|
+				tr do
+				 td link_to(session.created_at.to_date.to_s+" con "+session.doctors.map{|d| d.name}.join(" y "), admin_session_path(session))
+				end
+			end
+		end
+	  end
+    active_admin_comments
+  end
 
 
 end

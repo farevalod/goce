@@ -74,6 +74,17 @@ end
 					 td do 
 						b attendance.weight
 					 end
+					 td do
+						if attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight > 0
+							span style: "color:#3a3" do
+								"+"+(attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight).to_s
+							end
+						else
+							span style: "color:#a33" do
+							    (attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight).to_s
+							end
+						end
+					 end
 					end
 				end
 			end
@@ -84,7 +95,7 @@ end
 				patient.payments.each do |payment|
 					tr do
 					 td link_to(payment.created_at, admin_payment_path(payment))
-					 td "$"+payment.amount.to_s
+					 td number_to_currency payment.amount, separator: ",", delimiter: ".", precision: 0
 					end
 				end
 		  end
