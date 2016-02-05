@@ -12,6 +12,9 @@ index title: "Paciente" do
 	column "Peso Inicial" do |a|
 		a.initial_weight
 	end
+	column "Peso Objetivo" do |a|
+		a.target
+	end
 	column "Estado" do |a|
 		a.status_s
 	end
@@ -44,6 +47,7 @@ form do |f|
 	f.input :email
 	f.input :status, label: "Estado", :as => :select, :collection => [["Lista de espera",0], ["Paciente",1], ["Retirado",2], ["Graduado",3], ["Monitor",4]]
 	f.input :initial_weight
+	f.input :target
 	f.input :dob, as: :datepicker, label: "Fecha de nacimiento"
 	f.input :height, label: "Altura (en cm)"
 	f.input :rut
@@ -74,6 +78,9 @@ end
 	  end
       row "Peso Inicial" do
 	    patient.initial_weight.to_s+" Kg (IMC: "+(patient.initial_weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+	  end
+      row "Peso Objetivo" do
+	    patient.target.to_s+" Kg (IMC: "+(patient.target/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
 	  end
 	  if !patient.attendances.empty?
 		  row "Peso Actual" do

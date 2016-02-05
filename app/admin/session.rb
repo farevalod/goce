@@ -68,7 +68,7 @@ show do
 					f.semantic_fields_for "attendance[#{pa.id}]",  Attendance.new do |ff|
 						ff.inputs do 
 							if !pa.attendances.empty?
-								ff.input :weight, :label => link_to(pa.name, admin_patient_path(pa)), :input_html => { :style => "width:80px" }, :hint => "Peso inicial: "+pa.initial_weight.to_s+", Peso anterior: "+pa.attendances.last.weight.to_s+", Diferencia de Pesos: "+(pa.initial_weight-pa.attendances.last.weight).to_s
+								ff.input :weight, :label => link_to(pa.name, admin_patient_path(pa)), :input_html => { :style => "width:80px" }, :hint => "Peso anterior: "+pa.attendances.last.weight.to_s+", Peso inicial: "+pa.initial_weight.to_s+", Diferencia de Pesos: "+(pa.initial_weight-pa.attendances.last.weight).to_s
 							else
 								ff.input :weight, :label => link_to(pa.name, admin_patient_path(pa)), :input_html => { :style => "width:80px" }, :hint => "Peso inicial: "+pa.initial_weight.to_s
 							end

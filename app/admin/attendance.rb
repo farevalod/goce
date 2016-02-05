@@ -4,9 +4,6 @@ ActiveAdmin.register Attendance do
 		  id_column
 		  column :patient
 		  column :session
-		  column :group do |a|
-			  link_to a.session.group.name, admin_group_path(a.session.group)
-		  end
 		  column :weight
 		  actions
 	  end
@@ -14,7 +11,7 @@ ActiveAdmin.register Attendance do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :patient_id, :group_id, :weight, :justificacion
+permit_params :patient_id, :session_id, :weight, :justificacion
 #
 # or
 #
