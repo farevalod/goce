@@ -9,6 +9,16 @@ ActiveAdmin.register Attendance do
 		  actions
 	  end
 
+form title: "Nueva asistencia" do |f|
+  f.semantic_errors # shows errors on :base
+  f.inputs do
+	f.input :patient, label: "Paciente"
+	f.input :session, label: "Sesion", as: :select, collection: Session.all.map{|s| [s.group.name+" el "+s.created_at.to_date.to_s, s.id]}
+	f.input :weight, label: "Peso", :input_html => { :style => "width:100px" }
+  end
+  f.actions         # adds the 'Submit' and 'Cancel' buttons
+end
+
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #

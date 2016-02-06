@@ -30,7 +30,7 @@ end
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :height
+permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :height, :cirugia, :medicamentos
 #
 # or
 #
@@ -39,19 +39,21 @@ permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :sta
 #   permitted << :other if resource.something?
 #   permitted
 # end
-form do |f|
+form title: "Nuevo Paciente"do |f|
   f.semantic_errors # shows errors on :base
   f.inputs do
 	f.input :group
-	f.input :name
-	f.input :email
+	f.input :name, :input_html => { :style => "width:300px" }
+	f.input :email, :input_html => { :style => "width:200px" }
+	f.input :rut, :input_html => { :style => "width:100px" }
 	f.input :status, label: "Estado", :as => :select, :collection => [["Lista de espera",0], ["Paciente",1], ["Retirado",2], ["Graduado",3], ["Monitor",4]]
-	f.input :initial_weight
-	f.input :target
-	f.input :dob, as: :datepicker, label: "Fecha de nacimiento"
-	f.input :height, label: "Altura (en cm)"
-	f.input :rut
-	f.input :created_at, as: :datepicker, label: "Fecha de incorporacion"
+	f.input :initial_weight, :input_html => { :style => "width:100px" }
+	f.input :target, :input_html => { :style => "width:100px" }
+	f.input :height, label: "Altura (en cm)", :input_html => { :style => "width:100px" }
+	f.input :dob, as: :datepicker, label: "Fecha de nacimiento", :input_html => { :style => "width:100px" }
+	f.input :medicamentos, :input_html => { :style => "width:100px" }
+	f.input :created_at, as: :datepicker, label: "Fecha de incorporacion", :input_html => { :style => "width:100px" }
+	f.input :cirugia, label: "Cirugia Bariatrica"
   end
   f.actions         # adds the 'Submit' and 'Cancel' buttons
 end
@@ -73,6 +75,8 @@ end
 	  row "Grupo" do
 		  patient.group
 	  end
+	  row :cirugia
+	  row :medicamentos
       row "Estado" do
 		  patient.status_s
 	  end
@@ -111,21 +115,21 @@ end
 					 td do
 						if attendance.patient.attendances.find_index(attendance) == 0
 							if attendance.weight - attendance.patient.initial_weight > 0
-								span style: "color:#3a3" do
+								b style: "color:#3a3" do
 									"+"+(attendance.weight - attendance.patient.initial_weight).to_s
 								end
 							else
-								span style: "color:#a33" do
+								b style: "color:#a33" do
 									(attendance.weight - attendance.patient.initial_weight).to_s
 								end
 							end
 						else
 							if attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight > 0
-								span style: "color:#3a3" do
+								b style: "color:#3a3" do
 									"+"+(attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight).to_s
 								end
 							else
-								span style: "color:#a33" do
+								b style: "color:#a33" do
 									(attendance.weight - attendance.patient.attendances[attendance.patient.attendances.find_index(attendance)-1].weight).to_s
 								end
 							end

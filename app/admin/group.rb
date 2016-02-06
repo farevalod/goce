@@ -26,7 +26,7 @@ permit_params :name, :address, :day, :time, :doctor_id
 		  group.day
 	  end
 	  row "Hora" do
-		  group.time
+		  group.time.to_s.split[1][0,5]
 	  end
 	  row "Terapeuta" do
 		  link_to group.doctor.name, admin_doctor_path(group.doctor)
