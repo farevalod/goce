@@ -1,10 +1,11 @@
 ActiveAdmin.register Attendance do
 	  menu label: "Asistencia"
+	  #filter :patient, label: "Paciente"
 	  index title: "Asistencia" do
 		  id_column
-		  column :patient
-		  column :session
-		  column :weight
+		  column :patient, label: "Paciente"
+		  column :session, label: "Sesion"
+		  column :weight, label: "Peso"
 		  actions
 	  end
 

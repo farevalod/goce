@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120214554) do
+ActiveRecord::Schema.define(version: 20160206193656) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -120,6 +120,8 @@ ActiveRecord::Schema.define(version: 20160120214554) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "adjustment"
+    t.integer  "boleta"
+    t.integer  "mes"
   end
 
   add_index "payments", ["patient_id"], name: "index_payments_on_patient_id"

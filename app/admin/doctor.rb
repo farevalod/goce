@@ -40,5 +40,13 @@ permit_params :name, :email, :profession
     active_admin_comments
   end
 
+  form :title => "Nuevo Terapeuta" do |f|
+	f.inputs do
+	  f.input :name, label: "Nombre", :input_html => { :style => "width:160px" }
+	  f.input :email, :input_html => { :style => "width:160px" }
+	  f.input :profession, label: "Profesion", :input_html => { :style => "width:160px" }
+	end
+	f.actions         # adds the 'Submit' and 'Cancel' buttons
+  end
 
 end

@@ -43,6 +43,16 @@ permit_params :name, :address, :day, :time, :doctor_id
 	  end
     active_admin_comments
   end
+  form :title => "Nuevo Grupo" do |f|
+	f.inputs do
+	  f.input :doctor, label: "Terapeuta"
+	  f.input :name, label: "Nombre", :input_html => { :style => "width:160px" }
+	  f.input :address, label: "Direccion", :input_html => { :style => "width:380px" }
+	  f.input :day, label: "Dia", as: :select, collection: [["Lunes",1],["Martes",2],["Miercoles",3],["Jueves",4],["Viernes",5]]
+	  f.input :time, label: "Hora"
+	end
+	f.actions         # adds the 'Submit' and 'Cancel' buttons
+  end
 
 
 end

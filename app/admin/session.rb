@@ -49,6 +49,19 @@ show do
 						end
 					end
 				end
+				session.group.patients.each do |p|
+					if not session.attendances.map{ |a| a.patient_id }.include?(p.id)
+						tr :style => "background:#d99" do
+						 td link_to(p.name, admin_patient_path(p))
+						 td do 
+							 b "Ausente"
+						 end
+						 td do 
+							session.created_at.to_date
+						 end
+						end
+					end
+				end
 			end
 		  end
     active_admin_comments
@@ -58,13 +71,16 @@ show do
 		columns do
 			column do
 				f.inputs do
-					f.input :group
-				    f.input :doctors, :as => :select, :input_html => {:multiple => true}
-					f.input :date, as: :datepicker,      :input_html => { :style => "width:80px" }
+					f.input :group, label: "Grupo"
+				    f.input :doctors, :as => :select, :input_html => {:multiple => true}, label: "Terapeuta(s)"
+					f.input :date, as: :datepicker,      :input_html => { :style => "width:80px" }, label: "Fecha"
 				end
 			end
 			column do
 				Patient.all.each do |pa|
+					if pa.balance < 0
+						color = "#f00"
+					end
 					f.semantic_fields_for "attendance[#{pa.id}]",  Attendance.new do |ff|
 						ff.inputs do 
 							if !pa.attendances.empty?
@@ -76,9 +92,9 @@ show do
 						end
 					end
 				end
-				f.has_many :attendances do |a|
-					a.input :patient
-					a.input :weight
+				f.has_many :attendances, heading: "Asistencias de otros grupos", new_record: "Agregar Paciente..." do |a|
+					a.input :patient, label: "Paciente"
+					a.input :weight, label: "Peso"
 					a.input :justificacion
 				end
 			end

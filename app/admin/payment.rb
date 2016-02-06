@@ -5,7 +5,7 @@ ActiveAdmin.register Payment do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :patient_id, :amount, :details, :adjustment
+permit_params :patient_id, :amount, :details, :adjustment, :mes, :boleta
 #
 # or
 #
@@ -14,13 +14,15 @@ permit_params :patient_id, :amount, :details, :adjustment
 #   permitted << :other if resource.something?
 #   permitted
 # end
-form do |f|
+form :title => "Nuevo Pago" do |f|
   f.semantic_errors # shows errors on :base
   f.inputs do
-	f.input :patient
-	f.input :amount
-	f.input :details
-	f.input :adjustment, label: "Ajuste"
+	f.input :patient, label: "Paciente"
+	f.input :amount, :input_html => { :style => "width:80px" }, label: "Monto"
+	f.input :details, :input_html => { :style => "width:480px" }, label: "Detalles"
+	f.input :mes, as: :select, collection: Payment.months
+	f.input :boleta, class: :small, :input_html => { :style => "width:80px" }
+	f.input :adjustment, label: "Ajuste de pago"
   end
   f.actions         # adds the 'Submit' and 'Cancel' buttons
 end
