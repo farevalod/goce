@@ -23,7 +23,7 @@ permit_params :name, :address, :day, :time, :doctor_id
 		  group.address
 	  end
 	  row "Dia" do
-		  group.day
+		  group.day_s
 	  end
 	  row "Hora" do
 		  group.time.to_s.split[1][0,5]
@@ -32,6 +32,15 @@ permit_params :name, :address, :day, :time, :doctor_id
 		  link_to group.doctor.name, admin_doctor_path(group.doctor)
 	  end
 	end
+	panel "Pacientes" do
+		table do
+			group.patients.each do |patient|
+				tr do
+				 td link_to(patient.name, admin_patient_path(patient))
+				end
+			end
+		end
+	  end
 	panel "Sesiones" do
 		table do
 			group.sessions.each do |session|

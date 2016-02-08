@@ -1,5 +1,5 @@
 class Patient < ActiveRecord::Base
-	belongs_to :group
+	has_and_belongs_to_many :groups
 	has_many :payments
 	has_many :attendances
 	def owed

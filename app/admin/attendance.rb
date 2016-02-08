@@ -23,10 +23,10 @@ ActiveAdmin.register Attendance do
 	show title: "Registro de asistencia" do
 		attributes_table do
 			row "Paciente" do
-				attendance.patient.name
+				link_to attendance.patient.name, admin_patient_path(attendance.patient)
 			end
 			row "Sesion" do
-				attendance.session.group.name
+				link_to attendance.session.group.name+" el "+attendance.session.date.to_s, admin_session_path(attendance.session)
 			end
 			if attendance.justificacion
 				row "Justificacion" do

@@ -25,7 +25,7 @@ permit_params :name, :email, :profession
 		  doctor.profession
 	  end
 	  row :grupos do
-		  doctor.groups.map{|g| g.name}.join(", ")
+		  doctor.groups.map{|g| link_to(g.name, admin_group_path(g))}.join(", ").html_safe
 	  end
 	end
 	panel "Sesiones" do

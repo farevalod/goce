@@ -2,8 +2,9 @@ ActiveAdmin.register Patient do
 
 	menu label: "Paciente"
 	index title: "Paciente" do
-		id_column
-		column :name
+		column "Nombre" do |a|
+			link_to(a.name, admin_patient_path(a))
+		end
 		column :email
 		column :rut
 		column "Altura" do |a|
@@ -30,7 +31,7 @@ ActiveAdmin.register Patient do
 	# See permitted parameters documentation:
 	# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 	#
-	permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :height, :cirugia, :medicamentos
+	permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :height, :cirugia, :medicamentos, group_ids: []
 	#
 	# or
 	#
@@ -42,7 +43,7 @@ ActiveAdmin.register Patient do
 	form title: "Nuevo Paciente"do |f|
 		f.semantic_errors # shows errors on :base
 		f.inputs do
-			f.input :group
+			f.input :groups
 			f.input :name, :input_html => { :style => "width:300px" }
 			f.input :email, :input_html => { :style => "width:200px" }
 			f.input :rut, :input_html => { :style => "width:100px" }
@@ -72,11 +73,15 @@ ActiveAdmin.register Patient do
 				patient.height.to_s+" cm"
 			end
 			row :rut
-			row "Grupo" do
-				patient.group
+			row "Grupos" do
+				patient.groups.map{|g| link_to(g.name, admin_group_path(g))}.join(", ").html_safe
 			end
 			row "Cirugia Bariatrica" do
-				patient.cirugia
+				if patient.cirugia
+					"Si"
+				else
+					"No"
+				end
 			end
 			row :medicamentos
 			row "Estado" do
@@ -145,7 +150,10 @@ ActiveAdmin.register Patient do
 							end
 						end
 					else
-						b "No hay registro de pesos"
+						tr do
+							td link_to(attendance.created_at.to_date, admin_attendance_path(attendance))
+							td "Inasistencia justificada"
+						end
 					end
 				end
 			end
