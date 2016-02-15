@@ -30,6 +30,9 @@ gem 'devise'
 
 gem 'faker'
 
+gem "select2-rails"
+gem 'activeadmin-select2', github: 'mfairburn/activeadmin-select2'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 

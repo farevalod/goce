@@ -93,7 +93,7 @@ show do
 					end
 				end
 				f.has_many :attendances, heading: "Asistencias de otros grupos", new_record: "Agregar Paciente..." do |a|
-					a.input :patient, label: "Paciente"
+					a.input :patient, label: "Paciente", as: :select2_multiple
 					a.input :weight, label: "Peso"
 					a.input :justificacion
 				end
