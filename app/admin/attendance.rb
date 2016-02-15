@@ -12,7 +12,7 @@ ActiveAdmin.register Attendance do
 	form title: "Nueva asistencia" do |f|
 		f.semantic_errors # shows errors on :base
 		f.inputs do
-			f.input :patient, label: "Paciente", as: :select2_multiple
+			f.input :patient, label: "Paciente", as: :select2
 			f.input :session, label: "Sesion", as: :select, collection: Session.all.map{|s| [s.group.name+" el "+s.created_at.to_date.to_s, s.id]}
 			f.input :weight, label: "Peso", :input_html => { :style => "width:100px" }
 			f.input :justificacion

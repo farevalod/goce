@@ -72,12 +72,17 @@ show do
 			column do
 				f.inputs do
 					f.input :group, label: "Grupo"
-				    f.input :doctors, :as => :select, :input_html => {:multiple => true}, label: "Terapeuta(s)"
-					f.input :date, as: :datepicker,      :input_html => { :style => "width:80px" }, label: "Fecha"
+				    f.input :doctors, :as => :select2_multiple, :input_html => {:multiple => true}, label: "Terapeuta(s)"
+					f.input :date, as: :datepicker, :input_html => { :style => "width:80px" }, label: "Fecha"
 				end
 			end
 			column do
-				Patient.all.each do |pa|
+				if params[:group_id]
+					patients = Patient.where("group_id = ?", params[:group_id]).all
+				else
+					patients = Patient.all
+				end
+				patients.each do |pa|
 					if pa.balance < 0
 						color = "#f00"
 					end
@@ -93,8 +98,8 @@ show do
 					end
 				end
 				f.has_many :attendances, heading: "Asistencias de otros grupos", new_record: "Agregar Paciente..." do |a|
-					a.input :patient, label: "Paciente", as: :select2_multiple
-					a.input :weight, label: "Peso"
+					a.input :patient_id, label: "Paciente", as: :select2, :collection => Patient.all.map{|p| ["#{p.name}, #{p.rut}", p.id]}
+					a.input :weight, label: "Peso", :input_html => { :style => "width:80px" }
 					a.input :justificacion
 				end
 			end

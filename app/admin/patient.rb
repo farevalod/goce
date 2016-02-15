@@ -43,7 +43,7 @@ ActiveAdmin.register Patient do
 	form title: "Nuevo Paciente"do |f|
 		f.semantic_errors # shows errors on :base
 		f.inputs do
-			f.input :groups
+			f.input :groups, as: :select2_multiple
 			f.input :name, :input_html => { :style => "width:300px" }
 			f.input :email, :input_html => { :style => "width:200px" }
 			f.input :rut, :input_html => { :style => "width:100px" }
