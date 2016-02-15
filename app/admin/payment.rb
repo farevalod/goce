@@ -17,7 +17,7 @@ permit_params :patient_id, :amount, :details, :adjustment, :mes, :boleta
 form :title => "Nuevo Pago" do |f|
   f.semantic_errors # shows errors on :base
   f.inputs do
-	f.input :patient, label: "Paciente", as: :select2_multiple
+	f.input :patient_id, label: "Paciente", as: :select2_multiple, :collection => Patient.all.map{|u| ["#{u.name}, #{u.rut}", u.id]}
 	f.input :amount, :input_html => { :style => "width:80px" }, label: "Monto"
 	f.input :details, :input_html => { :style => "width:480px" }, label: "Detalles"
 	f.input :mes, as: :select, collection: Payment.months

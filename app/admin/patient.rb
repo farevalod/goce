@@ -137,7 +137,7 @@ ActiveAdmin.register Patient do
 				patient.attendances.each do |attendance|
 					if not attendance.justificacion
 						tr do
-							td link_to(attendance.created_at.to_date, admin_attendance_path(attendance))
+							td link_to(attendance.session.name, admin_attendance_path(attendance))
 							td do 
 								b attendance.weight
 							end
@@ -167,7 +167,7 @@ ActiveAdmin.register Patient do
 						end
 					else
 						tr do
-							td link_to(attendance.created_at.to_date, admin_attendance_path(attendance))
+							td link_to(attendance.session.name, admin_attendance_path(attendance))
 							td "Inasistencia justificada"
 						end
 					end
