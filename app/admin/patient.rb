@@ -31,7 +31,7 @@ ActiveAdmin.register Patient do
 	# See permitted parameters documentation:
 	# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 	#
-	permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :height, :cirugia, :medicamentos, group_ids: []
+	permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :height, :cirugia, :medicamentos, :url_foto_antes, :url_foto_despues, group_ids: []
 	#
 	# or
 	#
@@ -54,6 +54,8 @@ ActiveAdmin.register Patient do
 			f.input :dob, as: :datepicker, label: "Fecha de nacimiento", :input_html => { :style => "width:100px" }
 			f.input :medicamentos, :input_html => { :style => "width:100px" }
 			f.input :created_at, as: :datepicker, label: "Fecha de incorporacion", :input_html => { :style => "width:100px" }
+			f.input :url_foto_antes, :input_html => { :style => "width:100px" }
+			f.input :url_foto_despues, :input_html => { :style => "width:100px" }
 			f.input :cirugia, label: "Cirugia Bariatrica"
 		end
 		f.actions         # adds the 'Submit' and 'Cancel' buttons
@@ -61,58 +63,72 @@ ActiveAdmin.register Patient do
 
 
 	show do
-		attributes_table do
-			row "Nombre" do
-				patient.name
-			end
-			row :email
-			row "Fecha de nacimiento" do
-				patient.dob
-			end
-			row "Altura" do
-				patient.height.to_s+" cm"
-			end
-			row :rut
-			row "Grupos" do
-				patient.groups.map{|g| link_to(g.name, admin_group_path(g))}.join(", ").html_safe
-			end
-			row "Cirugia Bariatrica" do
-				if patient.cirugia
-					"Si"
-				else
-					"No"
-				end
-			end
-			row :medicamentos
-			row "Estado" do
-				patient.status_s
-			end
-			row "Peso Inicial" do
-				patient.initial_weight.to_s+" Kg (IMC: "+(patient.initial_weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
-			end
-			row "Peso Objetivo" do
-				patient.target.to_s+" Kg (IMC: "+(patient.target/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
-			end
-			if !patient.attendances.empty?
-				row "Peso Actual" do
-					last_attendance = patient.attendances.where("justificacion = ?",0).last
-					if last_attendance
-						last_attendance.weight.to_s+" Kg (IMC: "+(last_attendance.weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+		columns do
+			column do
+				attributes_table do
+					row "Nombre" do
+						patient.name
+					end
+					row :email
+					row "Fecha de nacimiento" do
+						patient.dob
+					end
+					row "Altura" do
+						patient.height.to_s+" cm"
+					end
+					row :rut
+					row "Grupos" do
+						patient.groups.map{|g| link_to(g.name, admin_group_path(g))}.join(", ").html_safe
+					end
+					row "Cirugia Bariatrica" do
+						if patient.cirugia
+							"Si"
+						else
+							"No"
+						end
+					end
+					row :medicamentos
+					row "Estado" do
+						patient.status_s
+					end
+					row "Peso Inicial" do
+						patient.initial_weight.to_s+" Kg (IMC: "+(patient.initial_weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+					end
+					row "Peso Objetivo" do
+						patient.target.to_s+" Kg (IMC: "+(patient.target/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+					end
+					if !patient.attendances.empty?
+						row "Peso Actual" do
+							last_attendance = patient.attendances.where("justificacion = ?",0).last
+							if last_attendance
+								last_attendance.weight.to_s+" Kg (IMC: "+(last_attendance.weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+							else
+								"No hay registro de pesos"
+							end
+						end
+					end
+					row "Fecha de incorporacion" do
+						patient.created_at.to_date
+					end
+					if patient.balance < 0
+						row "Total Deuda" do
+							number_to_currency patient.balance.abs, separator: ",", delimiter: ".", precision: 0
+						end
 					else
-						"No hay registro de pesos"
+						row "Saldo a favor" do
+							number_to_currency patient.balance.abs, separator: ",", delimiter: ".", precision: 0
+						end
 					end
 				end
 			end
-			row "Fecha de incorporacion" do
-				patient.created_at.to_date
-			end
-			if patient.balance < 0
-				row "Total Deuda" do
-					number_to_currency patient.balance.abs, separator: ",", delimiter: ".", precision: 0
-				end
-			else
-				row "Saldo a favor" do
-					number_to_currency patient.balance.abs, separator: ",", delimiter: ".", precision: 0
+			column do
+				attributes_table do
+					row "Foto Antes" do
+						image_tag(patient.url_foto_antes)
+					end
+					row "Foto Despues" do
+						image_tag(patient.url_foto_despues)
+					end
 				end
 			end
 		end
