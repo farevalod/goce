@@ -30,10 +30,14 @@ end
 show title: proc{|payment| "Pago "+payment.id.to_s+" de "+payment.patient.name } do
 	attributes_table do
 		row :patient
-		row :amount
+		row :amount do
+			number_to_currency payment.amount, separator: ",", delimiter: ".", precision: 0
+		end
 		row :details
-		row "Ajuste" do 
-			payment.adjustment
+		if payment.adjustment
+			row "Ajuste" do 
+					"Si"
+			end
 		end
     end
     active_admin_comments
