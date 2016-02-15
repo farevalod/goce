@@ -78,9 +78,9 @@ show do
 			end
 			column do
 				if params[:group_id]
-					patients = Patient.where("group_id = ?", params[:group_id]).all
+					patients = Patient.includes(:groups).where("groups.id = ?", params[:group_id]).references(:groups)
 				else
-					patients = Patient.all
+					patients = Patient
 				end
 				patients.each do |pa|
 					if pa.balance < 0
