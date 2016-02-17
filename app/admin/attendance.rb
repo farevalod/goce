@@ -1,11 +1,20 @@
 ActiveAdmin.register Attendance do
 	menu label: "Asistencia"
-	#filter :patient, label: "Paciente"
-	index title: "Asistencia" do
+	filter :patient, label: "Paciente"
+	filter :session, label: "Sesion"
+	filter :weight, label: "Peso"
+	filter :justificacion
+	index title: "Asistencias" do
 		id_column
-		column :patient, label: "Paciente"
-		column :session, label: "Sesion"
-		column :weight, label: "Peso"
+		column "Paciente" do |a|
+			link_to a.patient.name, admin_patient_path(a.patient)
+		end
+		column "Sesion" do |a|
+			link_to a.session.name, admin_session_path(a.session)
+		end
+		column "Peso" do |a|
+			a.weight
+		end
 		actions
 	end
 

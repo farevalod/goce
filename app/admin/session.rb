@@ -1,7 +1,16 @@
 ActiveAdmin.register Session do
 
-menu label: "Sesion"
-index title: "Sesion"
+menu label: "Sesiones"
+index title: "Sesiones" do
+	column "Nombre" do |s|
+		link_to(s.name, admin_session_path(s))
+	end
+	column :date
+	column :group
+	column :doctors do |s|
+	  s.doctors.map{|d| link_to(d.name, admin_doctor_path(d))}.join(", ").html_safe
+	end
+end
 #
 permit_params :group_id, :doctor_id, :date, :attendance
 #
@@ -71,7 +80,7 @@ show do
 		columns do
 			column do
 				f.inputs do
-					f.input :group, label: "Grupo"
+					f.input :group, label: "Grupo", as: :select2
 				    f.input :doctors, :as => :select2_multiple, :input_html => {:multiple => true}, label: "Terapeuta(s)"
 					f.input :date, as: :datepicker, :input_html => { :style => "width:80px" }, label: "Fecha"
 				end
@@ -80,7 +89,7 @@ show do
 				if params[:group_id]
 					patients = Patient.includes(:groups).where("groups.id = ?", params[:group_id]).references(:groups)
 				else
-					patients = Patient
+					patients = Patient.all
 				end
 				patients.each do |pa|
 					if pa.balance < 0

@@ -1,6 +1,24 @@
 ActiveAdmin.register Group do
   menu label: "Grupos"
-  index title: "Grupos"
+  filter :patients, label: "Pacientes"
+  filter :doctor, label: "Terapeuta"
+  filter :name, label: "Nombre"
+  filter :addresss, label: "Direccion"
+  filter :day, label: "Dia"
+  index title: "Grupos" do
+	  column "Nombre" do |g|
+		  link_to g.name, admin_group_path(g)
+	  end
+	  column "Dia" do |g|
+		  g.day_s
+	  end
+	  column "Direccion" do |g|
+		  g.address
+	  end
+	  column "Terapeuta" do |g|
+		  link_to g.doctor.name, admin_doctor_path(g.doctor)
+	  end
+  end
 
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
@@ -19,14 +37,11 @@ permit_params :name, :address, :day, :time, :doctor_id
       row "Nombre" do
 		  group.name
 	  end
-	  row "Direccion" do
-		  group.address
-	  end
 	  row "Dia" do
 		  group.day_s
 	  end
-	  row "Hora" do
-		  group.time.to_s.split[1][0,5]
+	  row "Direccion" do
+		  group.address
 	  end
 	  row "Terapeuta" do
 		  link_to group.doctor.name, admin_doctor_path(group.doctor)
@@ -58,7 +73,6 @@ permit_params :name, :address, :day, :time, :doctor_id
 	  f.input :name, label: "Nombre", :input_html => { :style => "width:160px" }
 	  f.input :address, label: "Direccion", :input_html => { :style => "width:380px" }
 	  f.input :day, label: "Dia", as: :select, collection: [["Lunes",1],["Martes",2],["Miercoles",3],["Jueves",4],["Viernes",5]]
-	  f.input :time, label: "Hora"
 	end
 	f.actions         # adds the 'Submit' and 'Cancel' buttons
   end

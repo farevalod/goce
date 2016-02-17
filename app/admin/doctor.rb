@@ -1,7 +1,19 @@
 ActiveAdmin.register Doctor do
 
 menu label: "Terapeuta"
-index title: "Terapeutas"
+filter :groups, label: "Grupos"
+filter :sessions, label: "Sesiones"
+filter :name, label: "Nombre"
+filter :email
+filter :profession, label: "Profesion"
+index title: "Terapeutas" do
+	column "Nombre" do |d|
+		link_to(d.name, admin_doctor_path(d))
+	end
+	column :email
+	column :profession, label: "Profesion"
+	actions
+end
 permit_params :name, :email, :profession
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters

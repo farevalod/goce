@@ -1,7 +1,15 @@
 ActiveAdmin.register Patient do
 
-	menu label: "Paciente"
-	index title: "Paciente" do
+	menu label: "Pacientes"
+	filter :groups
+	filter :name, label: "Nombre"
+	filter :rut, label: "RUT"
+	filter :email
+	filter :dob, label: "Fecha de nacimiento"
+	filter :status
+	filter :cirugia
+	filter :medicamentos
+	index title: "Pacientes" do
 		column "Nombre" do |a|
 			link_to(a.name, admin_patient_path(a))
 		end
@@ -44,18 +52,18 @@ ActiveAdmin.register Patient do
 		f.semantic_errors # shows errors on :base
 		f.inputs do
 			f.input :groups, as: :select2_multiple
-			f.input :name, :input_html => { :style => "width:300px" }
+			f.input :name, label: "Nombre", :input_html => { :style => "width:300px" }
 			f.input :email, :input_html => { :style => "width:200px" }
 			f.input :rut, :input_html => { :style => "width:100px" }
 			f.input :status, label: "Estado", :as => :select, :collection => [["Lista de espera",0], ["Paciente",1], ["Retirado",2], ["Graduado",3], ["Monitor",4]]
-			f.input :initial_weight, :input_html => { :style => "width:100px" }
-			f.input :target, :input_html => { :style => "width:100px" }
+			f.input :initial_weight, label: "Peso Inicial", :input_html => { :style => "width:100px" }
+			f.input :target, label: "Peso Objetivo", :input_html => { :style => "width:100px" }
 			f.input :height, label: "Altura (en cm)", :input_html => { :style => "width:100px" }
 			f.input :dob, as: :datepicker, label: "Fecha de nacimiento", :input_html => { :style => "width:100px" }
-			f.input :medicamentos, :input_html => { :style => "width:100px" }
+			f.input :medicamentos, :input_html => { :style => "width:200px" }
 			f.input :created_at, as: :datepicker, label: "Fecha de incorporacion", :input_html => { :style => "width:100px" }
-			f.input :url_foto_antes, :input_html => { :style => "width:100px" }
-			f.input :url_foto_despues, :input_html => { :style => "width:100px" }
+			f.input :url_foto_antes, :input_html => { :style => "width:200px" }
+			f.input :url_foto_despues, :input_html => { :style => "width:200px" }
 			f.input :cirugia, label: "Cirugia Bariatrica"
 		end
 		f.actions         # adds the 'Submit' and 'Cancel' buttons
@@ -99,7 +107,7 @@ ActiveAdmin.register Patient do
 					end
 					if !patient.attendances.empty?
 						row "Peso Actual" do
-							last_attendance = patient.attendances.where("justificacion = ?",0).last
+							last_attendance = patient.attendances.where("justificacion = ?",false).last
 							if last_attendance
 								last_attendance.weight.to_s+" Kg (IMC: "+(last_attendance.weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
 							else

@@ -1,5 +1,12 @@
 ActiveAdmin.register Payment do
   menu label: "Pagos"
+  filter :patient, label: "Paciente"
+  filter :amount, label: "Monto"
+  filter :details, label: "Detalles"
+  filter :created_at, label: "Fecha de pago"
+  filter :boleta
+  filter :adjustment, label: "Ajuste"
+  filter :mes
   index title: "Pagos"
 
 # See permitted parameters documentation:
