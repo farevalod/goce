@@ -100,10 +100,18 @@ ActiveAdmin.register Patient do
 						patient.status_s
 					end
 					row "Peso Inicial" do
-						patient.initial_weight.to_s+" Kg (IMC: "+(patient.initial_weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+						if patient.height
+							patient.initial_weight.to_s+" Kg (IMC: "+(patient.initial_weight/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+						else
+							patient.initial_weight.to_s+" Kg"
+						end
 					end
 					row "Peso Objetivo" do
-						patient.target.to_s+" Kg (IMC: "+(patient.target/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+						if patient.height
+							patient.target.to_s+" Kg (IMC: "+(patient.target/((patient.height/100.0)*(patient.height/100.0))).to_s(:rounded, precision: 2)+")"
+						else
+							patient.target.to_s+" Kg"
+						end
 					end
 					if !patient.attendances.empty?
 						row "Peso Actual" do

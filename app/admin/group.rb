@@ -16,7 +16,11 @@ ActiveAdmin.register Group do
 		  g.address
 	  end
 	  column "Terapeuta" do |g|
-		  link_to g.doctor.name, admin_doctor_path(g.doctor)
+		  if g.doctor
+			  link_to g.doctor.name, admin_doctor_path(g.doctor)
+		  else
+			  "Ninguno"
+		  end
 	  end
   end
 
@@ -44,7 +48,11 @@ permit_params :name, :address, :day, :time, :doctor_id
 		  group.address
 	  end
 	  row "Terapeuta" do
-		  link_to group.doctor.name, admin_doctor_path(group.doctor)
+		  if group.doctor
+			  link_to group.doctor.name, admin_doctor_path(group.doctor)
+		  else
+			  "Ninguno"
+		  end
 	  end
 	end
 	panel "Pacientes" do
