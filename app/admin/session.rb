@@ -36,7 +36,9 @@ show do
 	    session.created_at
 	  end
   	  row "Total Asistencias" do
-	    session.attendances.count.to_s+"/"+session.group.patients.count.to_s+" ("+(session.attendances.count*100/session.group.patients.count).to_s+"%)"
+		  if session.group.patients.count > 0
+			session.attendances.count.to_s+"/"+session.group.patients.count.to_s+" ("+(session.attendances.count*100/session.group.patients.count).to_s+"%)"
+		  end
 	  end
     end
 		panel "Asistencias" do

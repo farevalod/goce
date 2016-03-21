@@ -41,12 +41,9 @@ permit_params :name, :email, :profession
 	  end
 	end
 	panel "Sesiones" do
-		table do
-			doctor.sessions.each do |session|
-				tr do
-				 td link_to(session.created_at.to_date.to_s+" en grupo "+session.group.name, admin_session_path(session))
-				end
-			end
+		table_for doctor.sessions do
+			column(:fecha) {|session| link_to(session.date.to_s, admin_session_path(session))}
+			column(:grupo) {|session| session.group.name}
 		end
 	  end
     active_admin_comments

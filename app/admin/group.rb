@@ -10,7 +10,7 @@ ActiveAdmin.register Group do
 		  link_to g.name, admin_group_path(g)
 	  end
 	  column "Dia" do |g|
-		  g.day_s
+		  g.day
 	  end
 	  column "Direccion" do |g|
 		  g.address
@@ -22,6 +22,10 @@ ActiveAdmin.register Group do
 			  "Ninguno"
 		  end
 	  end
+	  column "N de Pacientes" do |g|
+		  g.patients.count
+	  end
+
   end
 
 # See permitted parameters documentation:
@@ -42,7 +46,7 @@ permit_params :name, :address, :day, :time, :doctor_id
 		  group.name
 	  end
 	  row "Dia" do
-		  group.day_s
+		  group.day
 	  end
 	  row "Direccion" do
 		  group.address
@@ -68,7 +72,7 @@ permit_params :name, :address, :day, :time, :doctor_id
 		table do
 			group.sessions.each do |session|
 				tr do
-				 td link_to(session.created_at.to_date.to_s+" con "+session.doctors.map{|d| d.name}.join(" y "), admin_session_path(session))
+				 td link_to(session.date.to_s+" con "+session.doctors.map{|d| d.name}.join(" y "), admin_session_path(session))
 				end
 			end
 		end
@@ -80,7 +84,7 @@ permit_params :name, :address, :day, :time, :doctor_id
 	  f.input :doctor, label: "Terapeuta"
 	  f.input :name, label: "Nombre", :input_html => { :style => "width:160px" }
 	  f.input :address, label: "Direccion", :input_html => { :style => "width:380px" }
-	  f.input :day, label: "Dia", as: :select, collection: [["Lunes",1],["Martes",2],["Miercoles",3],["Jueves",4],["Viernes",5]]
+	  f.input :day, label: "Dia", as: :select, collection: [["Lunes","Lunes"],["Martes","Martes"],["Miercoles","Miercoles"],["Jueves","Jueves"],["Viernes","Viernes"]]
 	end
 	f.actions         # adds the 'Submit' and 'Cancel' buttons
   end

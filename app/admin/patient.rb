@@ -55,6 +55,8 @@ ActiveAdmin.register Patient do
 			f.input :name, label: "Nombre", :input_html => { :style => "width:300px" }
 			f.input :email, :input_html => { :style => "width:200px" }
 			f.input :rut, :input_html => { :style => "width:100px" }
+			f.input :phone, label: "Telefono", :input_html => { :style => "width:100px" }
+			f.input :address, label: "Comuna", :input_html => { :style => "width:100px" }
 			f.input :status, label: "Estado", :as => :select, :collection => [["Lista de espera",0], ["Paciente",1], ["Retirado",2], ["Graduado",3], ["Monitor",4]]
 			f.input :initial_weight, label: "Peso Inicial", :input_html => { :style => "width:100px" }
 			f.input :target, label: "Peso Objetivo", :input_html => { :style => "width:100px" }
@@ -85,6 +87,12 @@ ActiveAdmin.register Patient do
 						patient.height.to_s+" cm"
 					end
 					row :rut
+					row "Telefono" do
+						patient.phone
+					end
+					row "Comuna" do
+						patient.address
+					end
 					row "Grupos" do
 						patient.groups.map{|g| link_to(g.name, admin_group_path(g))}.join(", ").html_safe
 					end
