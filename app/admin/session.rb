@@ -37,7 +37,7 @@ show do
 	  end
   	  row "Total Asistencias" do
 		  if session.group.patients.count > 0
-			session.attendances.count.to_s+"/"+session.group.patients.count.to_s+" ("+(session.attendances.count*100/session.group.patients.count).to_s+"%)"
+			session.attendances.count.to_s+"/"+session.group.patients.where("patients.status = 1").count.to_s+" ("+(session.attendances.count*100/session.group.patients.where("patients.status = 1").count).to_s+"%)"
 		  end
 	  end
     end
@@ -60,7 +60,7 @@ show do
 						end
 					end
 				end
-				session.group.patients.each do |p|
+				session.group.patients.where("patients.status = 1").each do |p|
 					if not session.attendances.map{ |a| a.patient_id }.include?(p.id)
 						tr :style => "background:#d99" do
 						 td link_to(p.name, admin_patient_path(p))

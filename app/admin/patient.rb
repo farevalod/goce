@@ -1,6 +1,11 @@
 ActiveAdmin.register Patient do
 
 	menu label: "Pacientes"
+	scope("Lista de espera"){ |patients| patients.where(status: 0) }
+	scope("Paciente"){ |patients| patients.where(status: 1) }
+	scope("Retirado"){ |patients| patients.where(status: 2) }
+	scope("Graduado"){ |patients| patients.where(status: 3) }
+	scope("Monitor"){ |patients| patients.where(status: 4) }
 	filter :groups
 	filter :name, label: "Nombre"
 	filter :rut, label: "RUT"
@@ -10,7 +15,7 @@ ActiveAdmin.register Patient do
 	filter :cirugia
 	filter :medicamentos
 	index title: "Pacientes" do
-		column "Nombre" do |a|
+		column "Nombre", sortable: :name do |a|
 			link_to(a.name, admin_patient_path(a))
 		end
 		column :email
