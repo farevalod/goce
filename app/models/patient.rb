@@ -3,11 +3,11 @@ class Patient < ActiveRecord::Base
 	has_many :payments
 	has_many :attendances
 	def owed
-		weekly = 0
+		monthly = 0
 		self.groups.each do |g|
-			weekly += g.cost
+			monthly += g.cost
 		end
-		weekly*((Time.now-created_at.to_time)/(60*60*24*7)).ceil
+		monthly*((Time.now-created_at.to_time)/(60*60*24*7*30)).ceil
 	end
 	def balance
 		total = 0

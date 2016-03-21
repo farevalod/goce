@@ -31,7 +31,7 @@ ActiveAdmin.register Group do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :name, :address, :day, :time, :doctor_id
+permit_params :name, :address, :day, :time, :doctor_id, :cost
 #
 # or
 #
@@ -50,6 +50,9 @@ permit_params :name, :address, :day, :time, :doctor_id
 	  end
 	  row "Direccion" do
 		  group.address
+	  end
+	  row "Mensualidad" do
+		  group.cost
 	  end
 	  row "Terapeuta" do
 		  if group.doctor

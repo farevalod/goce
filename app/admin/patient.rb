@@ -44,7 +44,7 @@ ActiveAdmin.register Patient do
 	# See permitted parameters documentation:
 	# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 	#
-	permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :height, :cirugia, :medicamentos, :url_foto_antes, :url_foto_despues, group_ids: []
+	permit_params :name, :email, :dob, :group_id, :initial_weight, :created_at, :status, :rut, :phone, :address, :height, :cirugia, :medicamentos, :url_foto_antes, :url_foto_despues, group_ids: []
 	#
 	# or
 	#
